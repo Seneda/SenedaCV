@@ -1,5 +1,6 @@
 # SenedaCV
 A simple computervision library in c++
+
 Goals:
 - ~~Loading in simple image files~~
 - Displaying images.
