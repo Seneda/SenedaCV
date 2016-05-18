@@ -1,7 +1,8 @@
 # SenedaCV
 A simple computervision library in c++
 Goals:
-- Loading in simple image files and displaying them.
+- ~~Loading in simple image files~~
+- Displaying images.
 - Applying Convolution filters to images.
 - Generate key filter kernels at given sizes.
 - ??
