@@ -1,42 +1,23 @@
 #include <string>
+#include "img.hpp"
 #ifndef PPM_H
 #define PPM_H
 
-struct Pixel{
-	float r;
-	float g;
-	float b;
-	Pixel() {
-		r = 0;
-		g = 0;
-		b = 0;
-	}
-	Pixel(float r, float g, float b){
-		this->r = r;
-		this->g = g;
-		this->b = b;
-	}
-};
 
-class PixelGrid {
-	Pixel* pixels;
+class PPMImage: public PixelGrid {
 	public:
-	int height, width;
+	
 	std::string meta, magic;
-	PixelGrid(std::string magic, std::string meta, int h, int w){
-			this->meta = meta;
-			this->magic = magic;
-			height = h;
-			width = w;
-			pixels = new Pixel[h*w];
-		}
-	Pixel* operator[](int i){
-		return &pixels[i*width];
+	PPMImage(std::string magic, std::string meta, int h, int w)
+	: PixelGrid(w, h)
+	{
+		this->meta = meta;
+		this->magic = magic;
 	}
 };
 
-PixelGrid openImage(char* filename);
+PPMImage openImage(char* filename);
 
-void printImage(PixelGrid image);
+void printImage(PPMImage image);
 
 #endif

@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 
-PixelGrid openImage(char* filename){
+PPMImage openImage(char* filename){
 	std::string magic, meta;
 	std::ifstream file;
 	file.open(filename, std::ifstream::in);
@@ -14,7 +14,7 @@ PixelGrid openImage(char* filename){
 	int h, w;
 	file >> h >> w;
 	//std::cout << "H/W : " << h << " / " << w << std::endl;
-	PixelGrid image(magic, meta, h,w);
+	PPMImage image(magic, meta, h,w);
 	for (int i = 0; i < h; i++){
 		for (int j = 0; j < w; j++){
 			float r, g, b;
@@ -26,17 +26,19 @@ PixelGrid openImage(char* filename){
 	return image;
 }
 
-void printImage(PixelGrid image){
-	std::cout << image.magic << std::endl;
-	std::cout << image.meta << std::endl;
-	std::cout << image.height <<  ' ' << image.width << std::endl;
+void printImage(PPMImage image){
+	std::ofstream file;
+	file.open((char*)"/tmp/image.ppm"); 
+	file << image.magic << std::endl;
+	file << image.meta << std::endl;
+	file << image.height <<  ' ' << image.width << std::endl;
 	for (int i = 0; i < image.height; i++){
 		for (int j = 0; j < image.width; j++){
-			std::cout << (int)image[i][j].r*2 << ' ';
-			std::cout << (int)image[i][j].r << ' ';
-			std::cout << (int)image[i][j].r/5 << "  ";
+			file << (int)image[i][j].i << ' ';
+			file << (int)image[i][j].i << ' ';
+			file << (int)image[i][j].i << ' ';
 		} 
 		
-		std::cout << std::endl;
+		file << std::endl;
 	}
 }
