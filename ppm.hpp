@@ -14,6 +14,13 @@ class PPMImage: public PixelGrid {
 		this->meta = meta;
 		this->magic = magic;
 	}
+	PPMImage convolve(PixelGrid kernel);
+	void normalise();
+	float max();
+	float min();
+	float range(){
+		return this->max() - this->min();
+	};
 };
 
 PPMImage openImage(char* filename);

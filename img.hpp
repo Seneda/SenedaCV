@@ -10,6 +10,7 @@ struct Pixel{
 		r = 0;
 		g = 0;
 		b = 0;
+		i = 0;
 	}
 	Pixel(float r, float g, float b){
 		this->r = r;
@@ -24,13 +25,14 @@ class PixelGrid {
 	public:
 	int height, width;
 	PixelGrid(int h, int w){
-			height = h;
-			width = w;
-			pixels = new Pixel[h*w];
-		}
+		height = h;
+		width = w;
+		pixels = new Pixel[h*w];
+	}
 	Pixel* operator[](int i){
 		return &pixels[i*width];
 	}
+	PixelGrid convolve(PixelGrid kernel);
 };
 
 
