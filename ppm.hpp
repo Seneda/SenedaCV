@@ -8,8 +8,8 @@ class PPMImage: public PixelGrid {
 	public:
 	
 	std::string meta, magic;
-	PPMImage(std::string magic, std::string meta, int h, int w)
-	: PixelGrid(w, h)
+	PPMImage(std::string magic, std::string meta, int rows, int cols)
+	: PixelGrid(rows, cols)
 	{
 		this->meta = meta;
 		this->magic = magic;
@@ -19,12 +19,18 @@ class PPMImage: public PixelGrid {
 	float max();
 	float min();
 	float range(){
+		if (this->max() == this->min()){
+			return 1;
+		}
+		
 		return this->max() - this->min();
 	};
 };
 
 PPMImage openImage(char* filename);
 
-void printImage(PPMImage image);
+void printImage(std::string name, PPMImage image);
+
+void saveImage(PPMImage image);
 
 #endif

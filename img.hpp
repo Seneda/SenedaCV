@@ -1,5 +1,7 @@
 #ifndef IMG_HPP
 #define IMG_HPP
+#include <string>
+#include <iostream>
 
 struct Pixel{
 	float r;
@@ -23,18 +25,20 @@ struct Pixel{
 class PixelGrid {
 	Pixel* pixels;
 	public:
-	int height, width;
-	PixelGrid(int h, int w){
-		height = h;
-		width = w;
-		pixels = new Pixel[h*w];
+	int rows, columns;
+	PixelGrid(int r, int c){
+		rows = r;
+		columns = c;
+		pixels = new Pixel[r*c];
 	}
+	//  image[row][col]
 	Pixel* operator[](int i){
-		return &pixels[i*width];
+		return &pixels[i*columns];
 	}
 	PixelGrid convolve(PixelGrid kernel);
 };
 
+void printImage(std::string name, PixelGrid image);
 
 
 #endif
