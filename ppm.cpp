@@ -4,7 +4,7 @@
 #include <iostream>
 #include <limits>
 
-PPMImage openImage(char* filename){
+PPMImage openImage(const char* filename){
 	std::string magic, meta;
 	std::ifstream file;
 	file.open(filename, std::ifstream::in);
@@ -47,16 +47,44 @@ void printImage(std::string name, PPMImage image){
 
 void saveImage(PPMImage image){
 	std::ofstream file;
-	file.open((char*)"image.ppm"); 
+	char* name = (char*)"image.ppm";
+	file.open(name); 
 	file << image.magic << std::endl;
 	file << image.meta << std::endl;
 	file << image.columns <<  ' ' << image.rows << std::endl;
-	file << (int)image.max() << std::endl;
+	if ((int)image.max() == 0){
+		file << 1 << std::endl;
+	} else {
+		file << (int)image.max() << std::endl;
+	}
 	for (int i = 0; i < image.rows; i++){
 		for (int j = 0; j < image.columns; j++){
 			file << (int)image[i][j].i << ' ';
 			file << (int)image[i][j].i << ' ';
 			file << (int)image[i][j].i << "   ";
+		} 
+		
+		file << std::endl;
+	}
+}
+
+void PPMImage::saveImage(){
+	std::ofstream file;
+	char* name = (char*)"image.ppm";
+	file.open(name); 
+	file << magic << std::endl;
+	file << meta << std::endl;
+	file << columns << ' ' << rows << std::endl;
+	if ((int)max() == 0){
+		file << 1 << std::endl;
+	} else {
+		file << (int)max() << std::endl;
+	}
+	for (int i = 0; i < rows; i++){
+		for (int j = 0; j < columns; j++){
+			file << (int)(*this)[i][j].i << ' ';
+			file << (int)(*this)[i][j].i << ' ';
+			file << (int)(*this)[i][j].i << "   ";
 		} 
 		
 		file << std::endl;
@@ -105,6 +133,21 @@ void PPMImage::normalise(){
 	std::cout << std::endl;
 }
 
+void PPMImage::magnitudise(){
+	std::cout << "Magnitudise" << std::endl;
+
+	std::cout << "The min is " << this->min() << std::endl;
+	std::cout << "The max is " << this->max() << std::endl;
+
+	for (int r=0; r < rows; r++){
+		for (int c=0; c < columns; c++){
+			if ((*this)[r][c].i < 0 ){	
+				(*this)[r][c].i = -1*(*this)[r][c].i;
+			} 
+		}	
+	}
+}
+
 PPMImage PPMImage::convolve(PixelGrid kernel){
 	std::cout << "Convolving" << std::endl;
 	PPMImage conv(magic, meta, rows-kernel.rows+1, columns-kernel.columns+1);
@@ -125,6 +168,27 @@ PPMImage PPMImage::convolve(PixelGrid kernel){
 		//std::cout << "endrow" << std::endl;
 		
 	}
-	std::cout <<  "end" << std::endl;
+	std::cout <<  "end of convolution" << std::endl;
 	return conv;
+}
+
+void PPMImage::threshold(float thresh){
+	std::cout << "Threshold at " << thresh << std::endl;
+
+	std::cout << "The min is " << this->min() << std::endl;
+	std::cout << "The max is " << this->max() << std::endl;
+	std::cout << "The range is " << this->max() << std::endl;
+	thresh = this->min() + thresh*this->range();
+	float min0 = this->min();
+	float max0 = this->max();
+	for (int r=0; r < rows; r++){
+		for (int c=0; c < columns; c++){
+			if ((*this)[r][c].i > thresh ){	
+				(*this)[r][c].i = max0;
+			} 
+			else {
+				(*this)[r][c].i = min0;
+			}
+		}	
+	}
 }

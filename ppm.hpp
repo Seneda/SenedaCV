@@ -15,7 +15,10 @@ class PPMImage: public PixelGrid {
 		this->magic = magic;
 	}
 	PPMImage convolve(PixelGrid kernel);
+	void saveImage();
 	void normalise();
+	void magnitudise();
+	void threshold(float thresh);
 	float max();
 	float min();
 	float range(){
@@ -27,7 +30,7 @@ class PPMImage: public PixelGrid {
 	};
 };
 
-PPMImage openImage(char* filename);
+PPMImage openImage(const char* filename);
 
 void printImage(std::string name, PPMImage image);
 
