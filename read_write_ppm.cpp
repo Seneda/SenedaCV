@@ -13,20 +13,13 @@ int main() {
 	cout << filename_string << endl;
 	const char* filename = filename_string.c_str();
 	PPMImage image = openImage(filename);
-
-	//printImage("Image", image);
-	PixelGrid kernel = edge_x_big();
+	string kernel_name;
+	cin >> kernel_name;
+	PixelGrid kernel = readKernel(kernel_name.c_str());
 	printImage("Kernel", kernel);
 	PPMImage output = image.convolve(kernel);
-	
-	//kernel = edge_y();
-	//printImage("Kernel", kernel);
-	//output = output.convolve(kernel);
-	
-	//std::cout << output.min() << std::endl;
+
 	output.magnitudise();
-	output.threshold(0.3);
 	output.normalise();
 	output.saveImage();
-	//printImage("output", output);
 }

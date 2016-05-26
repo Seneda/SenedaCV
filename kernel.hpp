@@ -1,17 +1,11 @@
 #ifndef KERNEL_HPP
 #define KERNEL_HPP
-#include "img.hpp"					
+#include "img.hpp"	
+#include <string>				
 					
+
+PixelGrid readKernel(std::string filename);
 /*
-PixelGrid edge_x() {
-	PixelGrid kernel(2,2);
-	kernel[0][0].i = -1;
-	kernel[0][1].i = -1;
-	kernel[1][0].i = 1;
-	kernel[1][1].i = 1;
-	return kernel;
-}
-*/
 PixelGrid edge_x() {
 	PixelGrid kernel(1,3);
 	kernel[0][0].i = -1;
@@ -100,6 +94,5 @@ PixelGrid no_change(){
 	printImage("Kernel at creation", kernel);
 	return kernel;
 }
-
-
+*/
 #endif
