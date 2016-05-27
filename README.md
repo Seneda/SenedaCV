@@ -6,8 +6,8 @@ Goals:
 - Displaying images.
 - Applying Convolution filters to images.
 - Write a script which will read in a file containing instructions:
--- specify and image, specify a set of kernels, specify an output file name
--- load the image and convolve with the filters and save the output.
+ - specify and image, specify a set of kernels, specify an output file name
+ - load the image and convolve with the filters and save the output.
 - Generate key filter kernels at given sizes.
 - ??
 - Blurring and downscaling images
