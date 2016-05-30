@@ -7,16 +7,6 @@
 
 using namespace std;
 
-PPMImage apply_kernels(PPMImage input, vector<PixelGrid> kernels){
-	PPMImage output = input;
-	for (int k = 0; k < kernels.size(); k++){
-		cout << "convolving with " << endl;
-		printImage("K", kernels[k]);
-		output = output.convolve(kernels[k]);
-	}
-	return output;
-}
-
 
 int main() {
 	string magic, meta;
@@ -55,8 +45,8 @@ int main() {
 		}
 	}
 	cout << "****************" << endl; 
-	PPMImage output = apply_kernels(image, kernels);
-	output.magnitudise();
+	PPMImage output = image.apply_kernels(kernels);
+	//output.magnitudise();
 	output.normalise();
 	output.saveImage(output_filename);
 	cout << "DONE" << std::endl;

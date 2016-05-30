@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 #include "img.hpp"
 #ifndef PPM_H
 #define PPM_H
@@ -15,6 +16,7 @@ class PPMImage: public PixelGrid {
 		this->magic = magic;
 	}
 	PPMImage convolve(PixelGrid kernel);
+	PPMImage apply_kernels(std::vector<PixelGrid> kernels);
 	void saveImage(const char* name);
 	void normalise();
 	void magnitudise();
@@ -35,5 +37,6 @@ PPMImage openImage(const char* filename);
 void printImage(std::string name, PPMImage image);
 
 void saveImage(PPMImage image);
+
 
 #endif

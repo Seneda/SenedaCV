@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <limits>
+#include <vector>
 
 PPMImage openImage(const char* filename){
 	std::string magic, meta;
@@ -192,4 +193,14 @@ void PPMImage::threshold(float thresh){
 			}
 		}	
 	}
+}
+
+PPMImage PPMImage::apply_kernels(std::vector<PixelGrid> kernels){
+	PPMImage output = *this;
+	for (int k = 0; k < kernels.size(); k++){
+		std::cout << "convolving with " << std::endl;
+		printImage("K", kernels[k]);
+		output = output.convolve(kernels[k]);
+	}
+	return output;
 }

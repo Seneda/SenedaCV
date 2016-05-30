@@ -1,3 +1,4 @@
-sample_images/gull.ppm
+sample_images/sheep.ppm
 output.ppm
+kernels/gauss
 kernels/outline
