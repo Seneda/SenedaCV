@@ -8,9 +8,11 @@
 using namespace std;
 
 PPMImage apply_kernels(PPMImage input, vector<PixelGrid> kernels){
-	PPMImage output = PPMImage("", "", 0, 0);
+	PPMImage output = input;
 	for (int k = 0; k < kernels.size(); k++){
-		output = input.convolve(kernels[k]);
+		cout << "convolving with " << endl;
+		printImage("K", kernels[k]);
+		output = output.convolve(kernels[k]);
 	}
 	return output;
 }
@@ -40,15 +42,19 @@ int main() {
 	const char* kernelname;
 	vector <PixelGrid> kernels;
 	// Read kernel name
-	for (int i=0; i < 2; i++){
+	int i = 0 ;
+	while (file) {//(int i=0; i < 6; i++){
+		i ++;
 		std::getline(file, kernel_string);
-		cout << kernel_string << endl;
-		kernelname = kernel_string.c_str();
-		PixelGrid kernel = readKernel(kernelname);
-		printImage("Kernel", kernel);
-		kernels.push_back(kernel);
+		if (kernel_string != "") {
+			cout << "kernel " << i << kernel_string << endl;
+			kernelname = kernel_string.c_str();
+			PixelGrid kernel = readKernel(kernelname);
+			printImage("Kernel", kernel);
+			kernels.push_back(kernel);
+		}
 	}
-	
+	cout << "****************" << endl; 
 	PPMImage output = apply_kernels(image, kernels);
 	output.magnitudise();
 	output.normalise();

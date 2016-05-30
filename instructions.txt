@@ -1,5 +1,3 @@
-sample_images/sheep.ppm
+sample_images/gull.ppm
 output.ppm
-kernels/weird
-kernels/weird
-kernels/gauss
+kernels/outline
