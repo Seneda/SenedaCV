@@ -7,6 +7,15 @@
 
 using namespace std;
 
+PPMImage apply_kernels(PPMImage input, vector<PixelGrid> kernels){
+	PPMImage output = PPMImage("", "", 0, 0);
+	for (int k = 0; k < kernels.size(); k++){
+		output = input.convolve(kernels[k]);
+	}
+	return output;
+}
+
+
 int main() {
 	string magic, meta;
 	// open file
@@ -40,7 +49,7 @@ int main() {
 		kernels.push_back(kernel);
 	}
 	
-	PPMImage output = image.convolve(kernels[0]).convolve(kernels[1]);
+	PPMImage output = apply_kernels(image, kernels);
 	output.magnitudise();
 	output.normalise();
 	output.saveImage(output_filename);
