@@ -1,3 +1,5 @@
 sample_images/sheep.ppm
 output.ppm
 kernels/weird
+kernels/weird
+kernels/gauss

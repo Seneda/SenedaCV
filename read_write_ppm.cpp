@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <vector>
 #include "ppm.hpp"
 #include "kernel.hpp"
+
 using namespace std;
 
 int main() {
@@ -25,18 +27,20 @@ int main() {
 	cout << "Kernel : " << output_filename_string << endl;
 	const char* output_filename = output_filename_string.c_str();
 	
-	// Read kernel name
-	string kernel_name;
 	string kernel_string;
-	std::getline(file, kernel_string);
-	cout << kernel_string << endl;
-	const char* kernelname = kernel_string.c_str();
-	PixelGrid kernel = readKernel(kernelname);
-	printImage("Kernel", kernel);
+	const char* kernelname;
+	vector <PixelGrid> kernels;
+	// Read kernel name
+	for (int i=0; i < 2; i++){
+		std::getline(file, kernel_string);
+		cout << kernel_string << endl;
+		kernelname = kernel_string.c_str();
+		PixelGrid kernel = readKernel(kernelname);
+		printImage("Kernel", kernel);
+		kernels.push_back(kernel);
+	}
 	
-	
-	PPMImage output = image.convolve(kernel);
-
+	PPMImage output = image.convolve(kernels[0]).convolve(kernels[1]);
 	output.magnitudise();
 	output.normalise();
 	output.saveImage(output_filename);
