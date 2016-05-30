@@ -4,6 +4,7 @@
 #include <iostream>
 #include <limits>
 #include <vector>
+#include <cmath>
 
 PPMImage openImage(const char* filename){
 	std::string magic, meta;
@@ -204,3 +205,45 @@ PPMImage PPMImage::apply_kernels(std::vector<PixelGrid> kernels){
 	}
 	return output;
 }
+
+PPMImage PPMImage::resize(int out_rows, int out_columns){
+	PPMImage output = PPMImage(magic, meta, out_rows, out_columns);
+	
+	for (int r=0; r < out_rows; r++){
+		for (int c=0; c < out_columns; c++){
+			//std::cout << "Pixel " << r << " " << c << std::endl;
+			// Convert r,c into old style coordinates
+			float r_real = (float)r / out_rows * rows;
+			float c_real = (float)c / out_columns * columns;
+			int r_0 = floor(r_real);
+			int r_1 = ceil(r_real);
+			int c_0 = floor(c_real);
+			int c_1 = ceil(c_real);
+			float r_d = r_real - r_0;
+			float c_d = c_real - c_0;
+			/*   tl--t------tr
+			 *   |   |      | 
+			 *   |---p------|
+			 *   |   |      |
+			 *   |   |      |
+			 *   |   |      |
+			 *   bl--b------br  */
+			float tl, tr, bl, br;
+			tl = (*this)[r_0][c_0].i;
+			tr = (*this)[r_0][c_1].i;
+			bl = (*this)[r_1][c_0].i;
+			br = (*this)[r_1][c_1].i;
+			float t, b, p;
+			t = tr + (tr - tl)*c_d;
+			b = br + (br - bl)*c_d;
+			p = b + (b - t)*r_d;
+			output[r][c].i = p;
+			// r / rows * this->rows() same for cols
+			// find the 4 vals adjacent and the distances from each
+			// Do a weighted sum (possibly split into x and y separately)
+			// Set output[r][c] = val;
+		}
+	}
+	return output;
+}
+

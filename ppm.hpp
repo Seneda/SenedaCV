@@ -17,6 +17,7 @@ class PPMImage: public PixelGrid {
 	}
 	PPMImage convolve(PixelGrid kernel);
 	PPMImage apply_kernels(std::vector<PixelGrid> kernels);
+	PPMImage resize(int rows, int columns);
 	void saveImage(const char* name);
 	void normalise();
 	void magnitudise();
@@ -37,6 +38,7 @@ PPMImage openImage(const char* filename);
 void printImage(std::string name, PPMImage image);
 
 void saveImage(PPMImage image);
+
 
 
 #endif
