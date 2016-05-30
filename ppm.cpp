@@ -68,9 +68,10 @@ void saveImage(PPMImage image){
 	}
 }
 
-void PPMImage::saveImage(){
+void PPMImage::saveImage(const char* name){
 	std::ofstream file;
-	char* name = (char*)"image.ppm";
+	//char* name = (char*)"image.ppm";
+	std::cout << "Saving image to " << name << std::endl;
 	file.open(name); 
 	file << magic << std::endl;
 	file << meta << std::endl;

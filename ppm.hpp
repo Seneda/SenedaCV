@@ -15,7 +15,7 @@ class PPMImage: public PixelGrid {
 		this->magic = magic;
 	}
 	PPMImage convolve(PixelGrid kernel);
-	void saveImage();
+	void saveImage(const char* name);
 	void normalise();
 	void magnitudise();
 	void threshold(float thresh);
