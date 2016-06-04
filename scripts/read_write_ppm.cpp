@@ -2,8 +2,8 @@
 #include <string>
 #include <fstream>
 #include <vector>
-#include "ppm.hpp"
-#include "kernel.hpp"
+#include "../cv/ppm.hpp"
+#include "../cv/kernel.hpp"
 
 using namespace std;
 
@@ -44,11 +44,12 @@ int main() {
 			kernels.push_back(kernel);
 		}
 	}
-	cout << "****************" << endl; 
+	cout << "****************" << endl;
+//	image = image.resize(image.rows*2, image.columns*2);
+
 	PPMImage output = image.apply_kernels(kernels);
-	//output.magnitudise();
+//	output.magnitudise();
 	output.saveImage(output_filename);
-	output = output.resize(output.rows*2, output.columns*2);
 	output.normalise();
 	output.saveImage(output_filename);
 	cout << "DONE" << std::endl;
