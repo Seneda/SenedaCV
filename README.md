@@ -1,6 +1,11 @@
 # SenedaCV
 A simple computervision library in c++
 
+To Do:
+- Write unit tests for modules
+  - Get some simple images and check that the convolutions work
+- Do a full implementation of canny edge detection
+
 Goals:
 - ~~Loading in simple image files~~
 - Displaying images.

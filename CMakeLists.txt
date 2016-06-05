@@ -8,9 +8,14 @@ set(SOURCE_FILES
         cv/img.hpp
         cv/kernel.cpp
         cv/kernel.hpp
-    output.ppm
         cv/ppm.cpp
         cv/ppm.hpp
         scripts/apply_filters.cpp)
 
+set(TEST_FILES
+        cv/tests.cpp)
+
 add_executable(SenedaCV ${SOURCE_FILES})
+add_executable(SenedaCVTests ${TEST_FILES})
+
+add_subdirectory(cv)
