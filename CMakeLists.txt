@@ -11,6 +11,6 @@ set(SOURCE_FILES
     output.ppm
         cv/ppm.cpp
         cv/ppm.hpp
-    read_write_ppm.cpp)
+        scripts/apply_filters.cpp)
 
 add_executable(SenedaCV ${SOURCE_FILES})
