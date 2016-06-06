@@ -10,7 +10,7 @@ PPMImage openImage(const char* filename){
 	std::string magic, meta;
 	std::ifstream file;
 	file.open(filename, std::ifstream::in);
-	std::cout << "Opened" << std::endl;
+	std::cout << "Opened " << filename << std::endl;
 	std::getline(file, magic);
 	std::getline(file, meta);
 	//std::cout << "Meta " << meta << std::endl;
