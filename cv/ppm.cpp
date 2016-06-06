@@ -116,12 +116,12 @@ float PPMImage::max(){
 
 void PPMImage::normalise(){
 	std::cout << "Normalising" << std::endl;
+	std::cout << "The min is " << min() << std::endl;
+	std::cout << "The max is " << max() << std::endl;
+	std::cout << "The range is " << range() << std::endl;
 
-	std::cout << "The min is " << this->min() << std::endl;
-	std::cout << "The max is " << this->max() << std::endl;
-	std::cout << "The range is " << this->range() << std::endl;
-	float min0 = this->min();
-	float range0 = this->range();
+	float min0 = min();
+	float range0 = range();
 	for (int r=0; r < rows; r++){
 		for (int c=0; c < columns; c++){
 			//std::cout << (*this)[r][c].i << "->";
@@ -129,16 +129,13 @@ void PPMImage::normalise(){
 			if ((*this)[r][c].i < 0 ){
 				std::cout << "ERROR at " << r << ' ' << c << (*this)[r][c].i<<std::endl;
 			}
-			//std::cout << (*this)[r][c].i << ' ';
-		}	
-		//std::cout << std::endl;
+		}
 	}
 	std::cout << std::endl;
 }
 
 void PPMImage::magnitudise(){
 	std::cout << "Magnitudise" << std::endl;
-
 	std::cout << "The min is " << this->min() << std::endl;
 	std::cout << "The max is " << this->max() << std::endl;
 
@@ -157,19 +154,14 @@ PPMImage PPMImage::convolve(PixelGrid kernel){
 	std::cout << conv.rows << ' ' << conv.columns << std::endl;
 	for (int r = kernel.rows-1; r < rows; r++){
 		for (int c = kernel.columns-1; c < columns; c++){
-			// Compute value for pixel i,j
 			float intensity = 0;
-			//std::cout << r << ',' << c << ' ';
 			for (int x = 0; x < kernel.rows; x++){
 				for (int y = 0; y < kernel.columns; y++){
 					 intensity += kernel[x][y].i * (*this)[r-x][c-y].i;
 				}
 			} 
 			conv[r-kernel.rows+1][c-kernel.columns+1].i = intensity;
-			//std::cout << intensity << "   ";
 		}
-		//std::cout << "endrow" << std::endl;
-		
 	}
 	std::cout <<  "end of convolution" << std::endl;
 	return conv;
@@ -177,10 +169,10 @@ PPMImage PPMImage::convolve(PixelGrid kernel){
 
 void PPMImage::threshold(float thresh){
 	std::cout << "Threshold at " << thresh << std::endl;
-
 	std::cout << "The min is " << this->min() << std::endl;
 	std::cout << "The max is " << this->max() << std::endl;
 	std::cout << "The range is " << this->max() << std::endl;
+
 	thresh = this->min() + thresh*this->range();
 	float min0 = this->min();
 	float max0 = this->max();
@@ -211,7 +203,6 @@ PPMImage PPMImage::resize(int out_rows, int out_columns){
 	
 	for (int r=0; r < out_rows; r++){
 		for (int c=0; c < out_columns; c++){
-			//std::cout << "Pixel " << r << " " << c << std::endl;
 			// Convert r,c into old style coordinates
 			float r_real = (float)r / out_rows * rows;
 			float c_real = (float)c / out_columns * columns;
