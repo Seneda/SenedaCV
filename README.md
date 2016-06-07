@@ -2,6 +2,10 @@
 A simple computervision library in c++
 
 To Do:
+- Split the pixel class into two types: rgb and mono
+  - rgb can then also have methods for getting things like YUV values to allow converting to mono
+  - The PixelGrid class can then be used for all processing, convolutions etc.
+- Pseudo colorise processed images by resizing the original to the new size and then using the color map scaled by the mono intensity.
 - Write unit tests for modules
   - Get some simple images and check that the convolutions work
 - Do a full implementation of canny edge detection
