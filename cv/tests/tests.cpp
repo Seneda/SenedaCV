@@ -1,4 +1,5 @@
 #define CATCH_CONFIG_MAIN
+#include <string>
 #include "../catch.hpp"
 #include "../img.hpp"
 #include "../ppm.hpp"
@@ -6,10 +7,19 @@
 
 TEST_CASE("test that a new pixelgrid is filled with 0s", "[test]") {
     PixelGrid pixel_grid = PixelGrid(2, 2);
-    REQUIRE(pixel_grid[0][0].r == 0);
-    REQUIRE(pixel_grid[0][1].g == 0);
-    REQUIRE(pixel_grid[1][0].b == 0);
-    REQUIRE(pixel_grid[1][1].i == 0);
+    REQUIRE(pixel_grid[1][1] == "0 0 0 0"_p);
+}
+
+TEST_CASE("Test loading an image from file", "[loading]") {
+    PPMImage image = openImage("images/read_test.ppm");
+    REQUIRE(image.magic == (std::string) "P3");
+    REQUIRE(image.meta == (std::string) "#Meta Info");
+    REQUIRE(image[0][0] == "1 2 3  2"_p);
+    REQUIRE(image[0][1] == "4 5 6  5"_p);
+    REQUIRE(image[0][2] == "7 8 9  8"_p);
+    REQUIRE(image[1][0] == "9 8 7  8"_p);
+    REQUIRE(image[1][1] == "6 5 4  5"_p);
+    REQUIRE(image[1][2] == "3 2 1  2"_p);
 }
 
 TEST_CASE("Test block smoothing a delta works", "[convolution]") {

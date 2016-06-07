@@ -2,6 +2,7 @@
 #define IMG_HPP
 #include <string>
 #include <iostream>
+#include <sstream>
 
 struct Pixel{
 	float r;
@@ -40,5 +41,8 @@ class PixelGrid {
 
 void printImage(std::string name, PixelGrid image);
 
-
+bool operator==(const Pixel &lhs, const Pixel &rhs);
+bool operator==(const Pixel &lhs, const int &rhs);
+bool operator==(const Pixel &lhs, const int* &rhs);
+Pixel operator"" _p(const char* rgbi, size_t len);
 #endif
