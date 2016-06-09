@@ -14,8 +14,8 @@ struct RGBPixel{
     void operator= (float intensity);
     void calculate_intensity();
 };
-RGBPixel operator"" _p(const char* rgbi, size_t len);
 
+RGBPixel operator"" _rgb(const char *rgbi, size_t len);
 
 struct MonoPixel{
 	float i;
