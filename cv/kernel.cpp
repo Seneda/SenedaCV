@@ -12,7 +12,7 @@ PixelGrid readKernel(std::string filename){
 		for (int j = 0; j < cols; j++){
 			float v;
 			file >> v;
-			Pixel pixel(v, v, v);
+			RGBPixel pixel(v, v, v);
 			kernel[i][j] = pixel;
 		} 
 	}

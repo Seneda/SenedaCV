@@ -1,6 +1,6 @@
 #include "img.hpp"
 
-void Pixel::operator= (float intensity) {
+void RGBPixel::operator= (float intensity) {
     float ratio = intensity / i;
     i = intensity;
     r *= ratio;
@@ -13,7 +13,7 @@ PixelGrid PixelGrid::convolve(PixelGrid kernel) {
 	return p;
 }
 
-bool operator==(const Pixel &lhs, const Pixel &rhs) {
+bool operator==(const RGBPixel &lhs, const RGBPixel &rhs) {
     std::cout << "PIXEL COMPARE" << std::endl;
     std::cout << lhs.r << " " << rhs.r << std::endl;
     std::cout << lhs.g << " " << rhs.g << std::endl;
@@ -25,19 +25,19 @@ bool operator==(const Pixel &lhs, const Pixel &rhs) {
             lhs.i == rhs.i);
 }
 
-bool operator==(const Pixel &lhs, const int* rhs) {
+bool operator==(const RGBPixel &lhs, const int* rhs) {
     return (lhs.r == rhs[0] and
             lhs.g == rhs[1] and
             lhs.b == rhs[2] and
             lhs.i == rhs[3]);
 }
 
-bool operator==(const Pixel &lhs, const int rhs) {
+bool operator==(const RGBPixel &lhs, const int rhs) {
     return (lhs.i == rhs);
 }
 
-Pixel operator "" _p(const char* rgbi, size_t len) {
-    Pixel pixel;
+RGBPixel operator "" _p(const char* rgbi, size_t len) {
+    RGBPixel pixel;
     std::istringstream iss(rgbi);
     iss >> pixel.r;
     iss >> pixel.g;

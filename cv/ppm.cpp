@@ -27,7 +27,7 @@ PPMImage openImage(const char* filename){
 		for (int j = 0; j < cols; j++){
 			float r, g, b;
 			file >> r >> g >> b;
-			Pixel pixel(r, g, b);
+			RGBPixel pixel(r, g, b);
 			//std::cout << i << ',' << j << ' ' << pixel.i << ' ';
 			image[i][j] = pixel;
 		} 
@@ -164,7 +164,7 @@ PPMImage PPMImage::convolve(PixelGrid kernel){
 					blue += kernel[x][y].b * (*this)[r-x][c-y].b;
 				}
 			}
-			conv[r-kernel.rows+1][c-kernel.columns+1] = Pixel(red, green, blue);
+			conv[r-kernel.rows+1][c-kernel.columns+1] = RGBPixel(red, green, blue);
 		}
 	}
 	std::cout <<  "end of convolution" << std::endl;

@@ -6,7 +6,7 @@
 #include "../kernel.hpp"
 
 TEST_CASE("Test pixel struct", "[pixel]") {
-    Pixel pixel = Pixel(100, 150, 200);
+    RGBPixel pixel = RGBPixel(100, 150, 200);
     REQUIRE(pixel == 150);
     REQUIRE(pixel == "100 150 200 150"_p);
     pixel = 15;
