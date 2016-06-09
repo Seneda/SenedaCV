@@ -6,10 +6,11 @@
 #include "../kernel.hpp"
 
 TEST_CASE("Test mono pixel", "[pixel]") {
-    RGBPixel pixel = RGBPixel(10,10,10);
+    MonoPixel pixel = MonoPixel(10);
     REQUIRE(pixel == 10);
     REQUIRE(10 == pixel);
 }
+
 TEST_CASE("Test rgb pixel", "[pixel]") {
     RGBPixel pixel = RGBPixel(100, 150, 200);
     REQUIRE(pixel == 150);

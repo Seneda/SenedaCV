@@ -31,7 +31,7 @@ RGBPixel operator "" _rgb(const char *rgbi, size_t len) {
     iss >> pixel.i;
     return pixel;
 };
-RGBPixel::operator float() {
+RGBPixel::operator float () {
     return i;
 };
 
@@ -66,6 +66,9 @@ bool operator==(const RGBPixel &lhs, const RGBPixel &rhs) {
             lhs.i == rhs.i);
 }
 bool operator==(const MonoPixel &lhs, const MonoPixel &rhs) {
+    return (lhs.i == rhs.i);
+}
+bool operator==(const RGBPixel &lhs, const MonoPixel &rhs) {
     return (lhs.i == rhs.i);
 }
 
