@@ -1,5 +1,20 @@
 #include "img.hpp"
 
+RGBPixel::RGBPixel() {
+        r = 0;
+        g = 0;
+        b = 0;
+        i = 0;
+    }
+RGBPixel::RGBPixel(float red, float green, float blue){
+        r = red;
+        g = green;
+        b = blue;
+        calculate_intensity();
+    }
+void RGBPixel::calculate_intensity(){
+        i = (r+g+b)/3;
+    }
 void RGBPixel::operator= (float intensity) {
     float ratio = intensity / i;
     i = intensity;
@@ -7,6 +22,25 @@ void RGBPixel::operator= (float intensity) {
     g *= ratio;
     b *= ratio;
 }
+RGBPixel operator "" _p(const char* rgbi, size_t len) {
+    RGBPixel pixel;
+    std::istringstream iss(rgbi);
+    iss >> pixel.r;
+    iss >> pixel.g;
+    iss >> pixel.b;
+    iss >> pixel.i;
+    return pixel;
+};
+
+
+MonoPixel::MonoPixel() {
+    i = 0;
+}
+MonoPixel::MonoPixel(float intensity) {
+    i = intensity;
+}
+
+
 
 PixelGrid PixelGrid::convolve(PixelGrid kernel) {
 	PixelGrid p(10,10);
@@ -36,15 +70,6 @@ bool operator==(const RGBPixel &lhs, const int rhs) {
     return (lhs.i == rhs);
 }
 
-RGBPixel operator "" _p(const char* rgbi, size_t len) {
-    RGBPixel pixel;
-    std::istringstream iss(rgbi);
-    iss >> pixel.r;
-    iss >> pixel.g;
-    iss >> pixel.b;
-    iss >> pixel.i;
-    return pixel;
-};
 
 void printImage(std::string name, PixelGrid image){
 	std::cout << std::endl << name << std::endl;

@@ -9,22 +9,18 @@ struct RGBPixel{
 	float g;
 	float b;
 	float i;
-	RGBPixel() {
-		r = 0;
-		g = 0;
-		b = 0;
-		i = 0;
-	}
-	RGBPixel(float red, float green, float blue){
-		r = red;
-		g = green;
-		b = blue;
-		calculate_intensity();
-	}
+	RGBPixel();
+	RGBPixel(float red, float green, float blue);
     void operator= (float intensity);
-    void calculate_intensity(){
-        i = (r+g+b)/3;
-    }
+    void calculate_intensity();
+};
+RGBPixel operator"" _p(const char* rgbi, size_t len);
+
+
+struct MonoPixel{
+	float i;
+	MonoPixel();
+	MonoPixel(float intensity);
 };
 
 class PixelGrid {
@@ -48,5 +44,4 @@ void printImage(std::string name, PixelGrid image);
 bool operator==(const RGBPixel &lhs, const RGBPixel &rhs);
 bool operator==(const RGBPixel &lhs, const int rhs);
 bool operator==(const RGBPixel &lhs, const int* &rhs);
-RGBPixel operator"" _p(const char* rgbi, size_t len);
 #endif
