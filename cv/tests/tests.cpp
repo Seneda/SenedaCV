@@ -5,9 +5,15 @@
 #include "../ppm.hpp"
 #include "../kernel.hpp"
 
-TEST_CASE("Test pixel struct", "[pixel]") {
+TEST_CASE("Test mono pixel", "[pixel]") {
+    RGBPixel pixel = RGBPixel(10,10,10);
+    REQUIRE(pixel == 10);
+    REQUIRE(10 == pixel);
+}
+TEST_CASE("Test rgb pixel", "[pixel]") {
     RGBPixel pixel = RGBPixel(100, 150, 200);
     REQUIRE(pixel == 150);
+    REQUIRE(150 == pixel);
     REQUIRE(pixel == "100 150 200 150"_rgb);
     pixel = 15;
     REQUIRE(pixel == "10 15 20 15"_rgb);

@@ -31,7 +31,9 @@ RGBPixel operator "" _rgb(const char *rgbi, size_t len) {
     iss >> pixel.i;
     return pixel;
 };
-
+RGBPixel::operator float() {
+    return i;
+};
 
 MonoPixel::MonoPixel() {
     i = 0;
@@ -39,7 +41,12 @@ MonoPixel::MonoPixel() {
 MonoPixel::MonoPixel(float intensity) {
     i = intensity;
 }
-
+void MonoPixel::operator= (float intensity) {
+    i = intensity;
+}
+MonoPixel::operator float() {
+    return i;
+}
 
 
 PixelGrid PixelGrid::convolve(PixelGrid kernel) {
@@ -58,18 +65,9 @@ bool operator==(const RGBPixel &lhs, const RGBPixel &rhs) {
             lhs.b == rhs.b and
             lhs.i == rhs.i);
 }
-
-bool operator==(const RGBPixel &lhs, const int* rhs) {
-    return (lhs.r == rhs[0] and
-            lhs.g == rhs[1] and
-            lhs.b == rhs[2] and
-            lhs.i == rhs[3]);
+bool operator==(const MonoPixel &lhs, const MonoPixel &rhs) {
+    return (lhs.i == rhs.i);
 }
-
-bool operator==(const RGBPixel &lhs, const int rhs) {
-    return (lhs.i == rhs);
-}
-
 
 void printImage(std::string name, PixelGrid image){
 	std::cout << std::endl << name << std::endl;
