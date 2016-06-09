@@ -1,6 +1,6 @@
 Test ppm module:
 - test saving
-- test loading
+- ~~test loading~~
 - test min
 - test max
 - test normalise

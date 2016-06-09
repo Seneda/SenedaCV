@@ -41,7 +41,7 @@ void printImage(std::string name, PPMImage image){
 	for (int r = 0; r < image.rows; r++){
 		for (int c = 0; c < image.columns; c++){
 			std::cout << "  ";
-			std::cout << image[r][c].i << ' ';
+			std::cout << image[r][c].r << ' ' << image[r][c].g << ' ' << image[r][c].b << ' ' << image[r][c].i << "   ";
 		}
 		//std::cout << std::endl;
 	}
@@ -61,9 +61,9 @@ void saveImage(PPMImage image){
 	}
 	for (int i = 0; i < image.rows; i++){
 		for (int j = 0; j < image.columns; j++){
-			file << (int)image[i][j].i << ' ';
-			file << (int)image[i][j].i << ' ';
-			file << (int)image[i][j].i << "   ";
+			file << (int)image[i][j].r << ' ';
+			file << (int)image[i][j].g << ' ';
+			file << (int)image[i][j].b << "   ";
 		} 
 		
 		file << std::endl;
@@ -85,9 +85,9 @@ void PPMImage::saveImage(const char* name){
 	}
 	for (int i = 0; i < rows; i++){
 		for (int j = 0; j < columns; j++){
-			file << (int)(*this)[i][j].i << ' ';
-			file << (int)(*this)[i][j].i << ' ';
-			file << (int)(*this)[i][j].i << "   ";
+			file << (int)(*this)[i][j].r << ' ';
+			file << (int)(*this)[i][j].g << ' ';
+			file << (int)(*this)[i][j].b << "   ";
 		} 
 		
 		file << std::endl;
@@ -125,7 +125,7 @@ void PPMImage::normalise(){
 	for (int r=0; r < rows; r++){
 		for (int c=0; c < columns; c++){
 			//std::cout << (*this)[r][c].i << "->";
-			(*this)[r][c].i = (((*this)[r][c].i - min0)/range0)*1000;	
+			(*this)[r][c] = (((*this)[r][c].i - min0)/range0)*1000;
 			if ((*this)[r][c].i < 0 ){
 				std::cout << "ERROR at " << r << ' ' << c << (*this)[r][c].i<<std::endl;
 			}
@@ -142,7 +142,7 @@ void PPMImage::magnitudise(){
 	for (int r=0; r < rows; r++){
 		for (int c=0; c < columns; c++){
 			if ((*this)[r][c].i < 0 ){	
-				(*this)[r][c].i = -1*(*this)[r][c].i;
+				(*this)[r][c] = -1*(*this)[r][c].i;
 			} 
 		}	
 	}
@@ -154,13 +154,17 @@ PPMImage PPMImage::convolve(PixelGrid kernel){
 	std::cout << conv.rows << ' ' << conv.columns << std::endl;
 	for (int r = kernel.rows-1; r < rows; r++){
 		for (int c = kernel.columns-1; c < columns; c++){
-			float intensity = 0;
+			float red = 0;
+			float green = 0;
+			float blue = 0;
 			for (int x = 0; x < kernel.rows; x++){
 				for (int y = 0; y < kernel.columns; y++){
-					 intensity += kernel[x][y].i * (*this)[r-x][c-y].i;
+					red += kernel[x][y].r * (*this)[r-x][c-y].r;
+					green += kernel[x][y].g * (*this)[r-x][c-y].g;
+					blue += kernel[x][y].b * (*this)[r-x][c-y].b;
 				}
-			} 
-			conv[r-kernel.rows+1][c-kernel.columns+1].i = intensity;
+			}
+			conv[r-kernel.rows+1][c-kernel.columns+1] = Pixel(red, green, blue);
 		}
 	}
 	std::cout <<  "end of convolution" << std::endl;
@@ -179,10 +183,10 @@ void PPMImage::threshold(float thresh){
 	for (int r=0; r < rows; r++){
 		for (int c=0; c < columns; c++){
 			if ((*this)[r][c].i > thresh ){	
-				(*this)[r][c].i = max0;
+				(*this)[r][c] = max0;
 			} 
 			else {
-				(*this)[r][c].i = min0;
+				(*this)[r][c] = min0;
 			}
 		}	
 	}
@@ -228,7 +232,7 @@ PPMImage PPMImage::resize(int out_rows, int out_columns){
 			t = tr + (tr - tl)*c_d;
 			b = br + (br - bl)*c_d;
 			p = b + (b - t)*r_d;
-			output[r][c].i = p;
+			output[r][c] = p;
 			// r / rows * this->rows() same for cols
 			// find the 4 vals adjacent and the distances from each
 			// Do a weighted sum (possibly split into x and y separately)

@@ -21,7 +21,7 @@ int main() {
 	const char* image_filename = image_filename_string.c_str();
 	
 	PPMImage image = openImage(image_filename);
-	
+
 	//read image name
 	string output_filename_string;
 	std::getline(file, output_filename_string);

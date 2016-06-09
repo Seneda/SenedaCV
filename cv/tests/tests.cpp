@@ -5,6 +5,18 @@
 #include "../ppm.hpp"
 #include "../kernel.hpp"
 
+TEST_CASE("Test pixel struct", "[pixel]") {
+    Pixel pixel = Pixel(100, 150, 200);
+    REQUIRE(pixel == 150);
+    REQUIRE(pixel == "100 150 200 150"_p);
+    pixel = 15;
+    REQUIRE(pixel == "10 15 20 15"_p);
+    pixel = -15;
+    REQUIRE(pixel == "-10 -15 -20  -15"_p);
+    pixel = 0;
+    REQUIRE(pixel == "0 0 0  0"_p);
+}
+
 TEST_CASE("test that a new pixelgrid is filled with 0s", "[test]") {
     PixelGrid pixel_grid = PixelGrid(2, 2);
     REQUIRE(pixel_grid[1][1] == "0 0 0 0"_p);
@@ -12,8 +24,8 @@ TEST_CASE("test that a new pixelgrid is filled with 0s", "[test]") {
 
 TEST_CASE("Test loading an image from file", "[loading]") {
     PPMImage image = openImage("images/read_test.ppm");
-    REQUIRE(image.magic == (std::string) "P3");
-    REQUIRE(image.meta == (std::string) "#Meta Info");
+    REQUIRE(image.magic == "P3");
+    REQUIRE(image.meta  == "#Meta Info");
     REQUIRE(image[0][0] == "1 2 3  2"_p);
     REQUIRE(image[0][1] == "4 5 6  5"_p);
     REQUIRE(image[0][2] == "7 8 9  8"_p);

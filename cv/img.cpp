@@ -1,21 +1,38 @@
 #include "img.hpp"
 
+void Pixel::operator= (float intensity) {
+    float ratio = intensity / i;
+    i = intensity;
+    r *= ratio;
+    g *= ratio;
+    b *= ratio;
+}
+
+PixelGrid PixelGrid::convolve(PixelGrid kernel) {
+	PixelGrid p(10,10);
+	return p;
+}
 
 bool operator==(const Pixel &lhs, const Pixel &rhs) {
+    std::cout << "PIXEL COMPARE" << std::endl;
+    std::cout << lhs.r << " " << rhs.r << std::endl;
+    std::cout << lhs.g << " " << rhs.g << std::endl;
+    std::cout << lhs.b << " " << rhs.b << std::endl;
+    std::cout << lhs.i << " " << rhs.i << std::endl;
     return (lhs.r == rhs.r and
             lhs.g == rhs.g and
             lhs.b == rhs.b and
             lhs.i == rhs.i);
 }
 
-bool operator==(const Pixel &lhs, const int* &rhs) {
+bool operator==(const Pixel &lhs, const int* rhs) {
     return (lhs.r == rhs[0] and
             lhs.g == rhs[1] and
             lhs.b == rhs[2] and
             lhs.i == rhs[3]);
 }
 
-bool operator==(const Pixel &lhs, const int &rhs) {
+bool operator==(const Pixel &lhs, const int rhs) {
     return (lhs.i == rhs);
 }
 
@@ -28,11 +45,6 @@ Pixel operator "" _p(const char* rgbi, size_t len) {
     iss >> pixel.i;
     return pixel;
 };
-
-PixelGrid PixelGrid::convolve(PixelGrid kernel) {
-	PixelGrid p(10,10);
-	return p;
-}
 
 void printImage(std::string name, PixelGrid image){
 	std::cout << std::endl << name << std::endl;

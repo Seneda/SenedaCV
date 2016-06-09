@@ -15,12 +15,16 @@ struct Pixel{
 		b = 0;
 		i = 0;
 	}
-	Pixel(float r, float g, float b){
-		this->r = r;
-		this->g = g;
-		this->b = b;
-		this->i = (r+g+b)/3;
+	Pixel(float red, float green, float blue){
+		r = red;
+		g = green;
+		b = blue;
+		calculate_intensity();
 	}
+    void operator= (float intensity);
+    void calculate_intensity(){
+        i = (r+g+b)/3;
+    }
 };
 
 class PixelGrid {
@@ -42,7 +46,7 @@ class PixelGrid {
 void printImage(std::string name, PixelGrid image);
 
 bool operator==(const Pixel &lhs, const Pixel &rhs);
-bool operator==(const Pixel &lhs, const int &rhs);
+bool operator==(const Pixel &lhs, const int rhs);
 bool operator==(const Pixel &lhs, const int* &rhs);
 Pixel operator"" _p(const char* rgbi, size_t len);
 #endif
