@@ -148,7 +148,7 @@ void PPMImage::magnitudise(){
 	}
 }
 
-PPMImage PPMImage::convolve(PixelGrid kernel){
+PPMImage PPMImage::convolve(PixelGrid<MonoPixel> kernel){
 	std::cout << "Convolving" << std::endl;
 	PPMImage conv(magic, meta, rows-kernel.rows+1, columns-kernel.columns+1);
 	std::cout << conv.rows << ' ' << conv.columns << std::endl;
@@ -159,9 +159,9 @@ PPMImage PPMImage::convolve(PixelGrid kernel){
 			float blue = 0;
 			for (int x = 0; x < kernel.rows; x++){
 				for (int y = 0; y < kernel.columns; y++){
-					red += kernel[x][y].r * (*this)[r-x][c-y].r;
-					green += kernel[x][y].g * (*this)[r-x][c-y].g;
-					blue += kernel[x][y].b * (*this)[r-x][c-y].b;
+					red += kernel[x][y].i * (*this)[r-x][c-y].r;
+					green += kernel[x][y].i * (*this)[r-x][c-y].g;
+					blue += kernel[x][y].i * (*this)[r-x][c-y].b;
 				}
 			}
 			conv[r-kernel.rows+1][c-kernel.columns+1] = RGBPixel(red, green, blue);
@@ -192,7 +192,7 @@ void PPMImage::threshold(float thresh){
 	}
 }
 
-PPMImage PPMImage::apply_kernels(std::vector<PixelGrid> kernels){
+PPMImage PPMImage::apply_kernels(std::vector<PixelGrid<MonoPixel>> kernels){
 	PPMImage output = *this;
 	for (int k = 0; k < kernels.size(); k++){
 		std::cout << "convolving with " << std::endl;

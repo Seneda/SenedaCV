@@ -49,11 +49,6 @@ MonoPixel::operator float() {
 }
 
 
-PixelGrid PixelGrid::convolve(PixelGrid kernel) {
-	PixelGrid p(10,10);
-	return p;
-}
-
 bool operator==(const RGBPixel &lhs, const RGBPixel &rhs) {
     std::cout << "PIXEL COMPARE" << std::endl;
     std::cout << lhs.r << " " << rhs.r << std::endl;
@@ -72,7 +67,7 @@ bool operator==(const RGBPixel &lhs, const MonoPixel &rhs) {
     return (lhs.i == rhs.i);
 }
 
-void printImage(std::string name, PixelGrid image){
+void printImage(std::string name, PixelGrid<MonoPixel> image){
 	std::cout << std::endl << name << std::endl;
 	for (int r = 0; r < image.rows; r++){
 		for (int c = 0; c < image.columns; c++){

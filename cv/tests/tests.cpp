@@ -25,8 +25,8 @@ TEST_CASE("Test rgb pixel", "[pixel]") {
 }
 
 TEST_CASE("test that a new pixelgrid is filled with 0s", "[test]") {
-    PixelGrid pixel_grid = PixelGrid(2, 2);
-    REQUIRE(pixel_grid[1][1] == "0 0 0 0"_rgb);
+    PixelGrid<MonoPixel> pixel_grid = PixelGrid<MonoPixel>(2, 2);
+    REQUIRE(pixel_grid[1][1] == 0);
 }
 
 TEST_CASE("Test loading an image from file", "[loading]") {
@@ -43,7 +43,7 @@ TEST_CASE("Test loading an image from file", "[loading]") {
 
 TEST_CASE("Test block smoothing a delta works", "[convolution]") {
     PPMImage input = openImage("images/delta.ppm");
-    PixelGrid kernel = readKernel("kernels/block_smooth_2_by_2");
+    PixelGrid<MonoPixel> kernel = readKernel("kernels/block_smooth_2_by_2");
     PPMImage output = openImage("images/block_smoothed_delta.ppm");
     PPMImage result = input.convolve(kernel);
     REQUIRE(output.rows == result.rows);

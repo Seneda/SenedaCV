@@ -30,23 +30,24 @@ struct MonoPixel{
     explicit operator float ();
 };
 
+template<class T=RGBPixel>
 class PixelGrid {
-	RGBPixel* pixels;
+	T* pixels;
 	public:
 	int rows, columns;
 	PixelGrid(int r, int c){
 		rows = r;
 		columns = c;
-		pixels = new RGBPixel[r*c];
+		pixels = new T[r*c];
 	}
 	//  image[row][col]
-	RGBPixel* operator[](int i){
+	T* operator[](int i){
 		return &pixels[i*columns];
 	}
-	PixelGrid convolve(PixelGrid kernel);
+	PixelGrid<T> convolve(PixelGrid<MonoPixel> kernel);
 };
 
-void printImage(std::string name, PixelGrid image);
+void printImage(std::string name, PixelGrid<MonoPixel> image);
 
 bool operator==(const RGBPixel &lhs, const RGBPixel &rhs);
 bool operator==(const MonoPixel &lhs, const MonoPixel &rhs);

@@ -4,7 +4,7 @@
 #include <string>				
 					
 
-PixelGrid readKernel(std::string filename);
+PixelGrid<MonoPixel> readKernel(std::string filename);
 /*
 PixelGrid edge_x() {
 	PixelGrid kernel(1,3);
