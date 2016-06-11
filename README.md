@@ -2,6 +2,8 @@
 A simple computervision library in c++
 
 To Do:
+
+- Add tests for the normalise method.
 - Split the pixel class into two types: rgb and mono
   - rgb can then also have methods for getting things like YUV values to allow converting to mono
   - The PixelGrid class can then be used for all processing, convolutions etc.

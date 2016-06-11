@@ -115,6 +115,9 @@ float PPMImage::max(){
 }
 
 void PPMImage::normalise(){
+	/*
+
+	  */
 	std::cout << "Normalising" << std::endl;
 	std::cout << "The min is " << min() << std::endl;
 	std::cout << "The max is " << max() << std::endl;

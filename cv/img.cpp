@@ -79,3 +79,36 @@ void printImage(std::string name, PixelGrid<MonoPixel> image){
 	std::cout << std::endl;
 }
 
+template<class T>
+bool PixelGrid<T>::operator==(float* values) {
+    for (int i = 0; i < rows * columns; i++) {
+        if (not (pixels[i] == values[i])) {
+            std::cout << i << ' ' << pixels[i].i << ' ' << values[i] << std::endl;
+            return false;
+        }
+    }
+    return true;
+}
+
+template<class T>
+void PixelGrid<T>::normalise() {
+    float sum_0 = sum();
+    if (sum_0 == 0) {
+        sum_0 = 1;
+    }
+    FOR_PIXELS
+        (*this)[r][c].i /= sum_0;
+    END_FOR_PIXELS
+}
+template<class T>
+float PixelGrid<T>::sum() {
+    float sum = 0;
+    FOR_PIXELS
+        sum += (*this)[r][c].i;
+    END_FOR_PIXELS
+    return sum;
+}
+
+template class PixelGrid<MonoPixel>;
+
+

@@ -30,7 +30,7 @@ int main() {
 	
 	string kernel_string;
 	const char* kernelname;
-	vector <PixelGrid> kernels;
+	vector <PixelGrid<MonoPixel>> kernels;
 	// Read kernel name
 	int i = 0 ;
 	while (file) {//(int i=0; i < 6; i++){
@@ -39,7 +39,7 @@ int main() {
 		if (kernel_string != "") {
 			cout << "kernel " << i << kernel_string << endl;
 			kernelname = kernel_string.c_str();
-			PixelGrid kernel = readKernel(kernelname);
+			PixelGrid<MonoPixel> kernel = readKernel(kernelname);
 			printImage("Kernel", kernel);
 			kernels.push_back(kernel);
 		}
@@ -48,7 +48,7 @@ int main() {
 //	image = image.resize(image.rows*2, image.columns*2);
 
 	PPMImage output = image.apply_kernels(kernels);
-//	output.magnitudise();
+	output.magnitudise();
 	output.saveImage(output_filename);
 	output.normalise();
 	output.saveImage(output_filename);
