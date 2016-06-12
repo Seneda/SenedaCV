@@ -51,12 +51,18 @@ TEST_CASE("Test loading an image from file", "[loading]") {
     PPMImage image = openImage("images/read_test.ppm");
     REQUIRE(image.magic == "P3");
     REQUIRE(image.meta  == "#Meta Info");
-    REQUIRE(image[0][0] == "1 2 3  2"_rgb);
-    REQUIRE(image[0][1] == "4 5 6  5"_rgb);
-    REQUIRE(image[0][2] == "7 8 9  8"_rgb);
-    REQUIRE(image[1][0] == "9 8 7  8"_rgb);
-    REQUIRE(image[1][1] == "6 5 4  5"_rgb);
-    REQUIRE(image[1][2] == "3 2 1  2"_rgb);
+    REQUIRE(image[0][0] == "1 2 3  2");
+    REQUIRE(image[0][1] == "4 5 6  5");
+    REQUIRE(image[0][2] == "7 8 9  8");
+    REQUIRE(image[1][0] == "9 8 7  8");
+    REQUIRE(image[1][1] == "6 5 4  5");
+    REQUIRE(image[1][2] == "3 2 1  2");
+    PixelGrid<MonoPixel> mono_grid = ConvertToMonopixel(image);
+    REQUIRE(image.rows == mono_grid.rows);
+    REQUIRE(image.columns == mono_grid.columns);
+    FOR_PIXELS_IN_GRID(image)
+        REQUIRE(image[r][c].i == mono_grid[r][c].i);
+    END_FOR_PIXELS
 }
 
 TEST_CASE("Test block smoothing a delta works", "[convolution]") {

@@ -18,7 +18,6 @@ struct RGBPixel{
 	operator float ();
 };
 
-RGBPixel operator"" _rgb(const char *rgbi, size_t len);
 
 struct MonoPixel{
 	float i;
@@ -33,6 +32,7 @@ struct MonoPixel{
 #define ITER_ROWS for (int r=0; r < rows; r++)
 #define ITER_COLS for (int c=0; c < columns; c++)
 #define FOR_PIXELS for (int r=0; r < rows; r++) { for (int c=0; c < columns; c++) {
+#define FOR_PIXELS_IN_GRID(grid) for (int r=0; r < grid.rows; r++) { for (int c=0; c < grid.columns; c++) {
 #define END_FOR_PIXELS } }
 template<class T=RGBPixel>
 class PixelGrid {
@@ -61,6 +61,10 @@ class PixelGrid {
 };
 
 void printImage(std::string name, PixelGrid<MonoPixel> image);
+
+
+PixelGrid<MonoPixel> ConvertToMonopixel(PixelGrid<RGBPixel> old);
+
 
 bool operator==(const RGBPixel &lhs, const RGBPixel &rhs);
 bool operator==(const MonoPixel &lhs, const MonoPixel &rhs);

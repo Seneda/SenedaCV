@@ -120,6 +120,14 @@ float PixelGrid<T>::sum() {
     return sum;
 }
 
+PixelGrid<MonoPixel> ConvertToMonopixel(PixelGrid<RGBPixel> old) {
+    PixelGrid<MonoPixel> pixel_grid = PixelGrid<MonoPixel>(old.rows, old.columns);
+    FOR_PIXELS_IN_GRID(old)
+        pixel_grid[r][c] = MonoPixel(old[r][c].i);
+    END_FOR_PIXELS
+    return pixel_grid;
+}
+
 template class PixelGrid<MonoPixel>;
 
 
