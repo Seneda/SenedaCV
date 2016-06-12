@@ -1,6 +1,11 @@
 # SenedaCV
 A simple computervision library in c++
 
+Workflow:
+- Load image as PPMImage
+- Apply edge filter
+
+
 To Do:
 
 - Add tests for the normalise method.

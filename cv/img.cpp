@@ -27,6 +27,12 @@ RGBPixel::operator float () {
     return i;
 };
 
+void RGBPixel::operator+=(float change) {
+    r += change;
+    g += change;
+    b += change;
+}
+
 MonoPixel::MonoPixel() {
     i = 0;
 }
@@ -40,6 +46,9 @@ MonoPixel::operator float() {
     return i;
 }
 
+void MonoPixel::operator+=(float change) {
+    i += change;
+}
 
 bool operator==(const RGBPixel &lhs, const RGBPixel &rhs) {
     std::cout << "PIXEL COMPARE" << std::endl;
@@ -52,12 +61,14 @@ bool operator==(const RGBPixel &lhs, const RGBPixel &rhs) {
             lhs.b == rhs.b and
             lhs.i == rhs.i);
 }
+
 bool operator==(const MonoPixel &lhs, const MonoPixel &rhs) {
     return (lhs.i == rhs.i);
 }
-bool operator==(const RGBPixel &lhs, const MonoPixel &rhs) {
-    return (lhs.i == rhs.i);
-}
+
+//bool operator==(const RGBPixel &lhs, const MonoPixel &rhs) {
+//    return (lhs.i == rhs.i);
+//}
 
 void printImage(std::string name, PixelGrid<MonoPixel> image){
 	std::cout << std::endl << name << std::endl;
@@ -103,6 +114,7 @@ void PixelGrid<T>::normalise() {
         (*this)[r][c].i /= sum_0;
     END_FOR_PIXELS
 }
+
 template<class T>
 float PixelGrid<T>::sum() {
     float sum = 0;
@@ -111,6 +123,63 @@ float PixelGrid<T>::sum() {
     END_FOR_PIXELS
     return sum;
 }
+
+template<class T>
+void PixelGrid<T>::autorange() {
+    float offset = min();
+    if (offset < 0) {
+        FOR_PIXELS
+            (*this)[r][c] += -1*offset;
+        END_FOR_PIXELS
+    }
+}
+
+template<class T>
+float PixelGrid<T>::max() {
+    float max = 0;
+    FOR_PIXELS
+        if ((*this)[r][c].i > max) {
+            max = (*this)[r][c].i;
+        }
+    END_FOR_PIXELS
+    return max;
+}
+
+template<class T>
+float PixelGrid<T>::max_abs() {
+    float max = 0;
+    FOR_PIXELS
+        float abs_val = abs((*this)[r][c].i);
+        if (abs_val > max) {
+            max = abs_val;
+        }
+    END_FOR_PIXELS
+    return max;
+}
+
+template<class T>
+float PixelGrid<T>::min() {
+    float min = 0;
+    FOR_PIXELS
+        if ((*this)[r][c].i < min) {
+            min = (*this)[r][c].i;
+        }
+    END_FOR_PIXELS
+    return min;
+}
+
+template<class T>
+float PixelGrid<T>::min_abs() {
+    float min = 0;
+    FOR_PIXELS
+        float abs_val = abs((*this)[r][c].i);
+        if (abs_val < min) {
+            min = abs_val;
+        }
+    END_FOR_PIXELS
+    return min;
+}
+
 
 PixelGrid<MonoPixel> ConvertToMonopixel(PixelGrid<RGBPixel> old) {
     PixelGrid<MonoPixel> pixel_grid = PixelGrid<MonoPixel>(old.rows, old.columns);
@@ -121,5 +190,6 @@ PixelGrid<MonoPixel> ConvertToMonopixel(PixelGrid<RGBPixel> old) {
 }
 
 template class PixelGrid<MonoPixel>;
+template class PixelGrid<RGBPixel>;
 
 

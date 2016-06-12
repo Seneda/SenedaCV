@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <stdlib.h>
 
 struct RGBPixel{
 	float r;
@@ -15,6 +16,7 @@ struct RGBPixel{
     void calculate_intensity();
 
     void operator= (float intensity);
+    void operator+= (float intensity);
 	operator float ();
 };
 
@@ -26,6 +28,7 @@ struct MonoPixel{
 	MonoPixel(float intensity);
 
 	void operator= (float intensity);
+    void operator+= (float intensity);
     explicit operator float ();
 };
 
@@ -56,8 +59,13 @@ class PixelGrid {
 	}
 	PixelGrid<T> convolve(PixelGrid<MonoPixel> kernel);
 	void normalise();
-
+    void autorange();
+    float max();
+    float max_abs();
+    float min();
+    float min_abs();
 	float sum();
+
 };
 
 void printImage(std::string name, PixelGrid<MonoPixel> image);

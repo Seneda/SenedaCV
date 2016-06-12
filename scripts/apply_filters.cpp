@@ -48,9 +48,7 @@ int main() {
 //	image = image.resize(image.rows*2, image.columns*2);
 
 	PPMImage output = image.apply_kernels(kernels);
-	output.magnitudise();
-	output.saveImage(output_filename);
-	output.normalise();
+	output.autorange();
 	output.saveImage(output_filename);
 	cout << "DONE" << std::endl;
 }

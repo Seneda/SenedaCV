@@ -45,6 +45,15 @@ TEST_CASE("Test that pixel grid functions work", "[pixelgrid]") {
     pixel_grid.normalise();
     printImage("pixels normed", pixel_grid);
     REQUIRE(pixel_grid == vals_norm2);
+    REQUIRE(pixel_grid.max() == 2);
+    REQUIRE(pixel_grid.max_abs() == 3);
+    REQUIRE(pixel_grid.min() == -3);
+    REQUIRE(pixel_grid.min_abs() == 0);
+    pixel_grid.autorange();
+    float vals_ranged[4] = {3,4,5,0};
+    printImage("RANGED", pixel_grid);
+    REQUIRE(pixel_grid == vals_ranged);
+
 }
 
 TEST_CASE("Test loading an image from file", "[loading]") {
