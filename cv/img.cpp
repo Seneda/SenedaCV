@@ -79,6 +79,17 @@ void printImage(std::string name, PixelGrid<MonoPixel> image){
 	std::cout << std::endl;
 }
 
+bool operator==(const RGBPixel &lhs, const std::string &rhs) {
+    std::istringstream iss(rhs);
+    float r, g, b, i;
+    iss >> r;
+    iss >> g;
+    iss >> b;
+    iss >> i;
+    return ((lhs.r == r) and (lhs.g== g) and (lhs.b == b) and (lhs.i == i)) ;
+}
+
+
 template<class T>
 bool PixelGrid<T>::operator==(float* values) {
     for (int i = 0; i < rows * columns; i++) {

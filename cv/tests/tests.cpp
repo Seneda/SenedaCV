@@ -15,13 +15,13 @@ TEST_CASE("Test rgb pixel", "[pixel]") {
     RGBPixel pixel = RGBPixel(100, 150, 200);
     REQUIRE(pixel == 150);
     REQUIRE(150 == pixel);
-    REQUIRE(pixel == "100 150 200 150"_rgb);
+    REQUIRE(pixel == "100 150 200 150");
     pixel = 15;
-    REQUIRE(pixel == "10 15 20 15"_rgb);
+    REQUIRE(pixel == "10 15 20 15");
     pixel = -15;
-    REQUIRE(pixel == "-10 -15 -20  -15"_rgb);
+    REQUIRE(pixel == "-10 -15 -20  -15");
     pixel = 0;
-    REQUIRE(pixel == "0 0 0  0"_rgb);
+    REQUIRE(pixel == "0 0 0  0");
 }
 
 TEST_CASE("Test that pixel grid functions work", "[pixelgrid]") {
@@ -32,7 +32,6 @@ TEST_CASE("Test that pixel grid functions work", "[pixelgrid]") {
     float vals[4] = {0,1,2,3};
     pixel_grid = vals;
     REQUIRE(pixel_grid == vals);
-
 
     float vals_norm[4] = {0, 1./6, 2./6, 3./6};
     pixel_grid.normalise();
@@ -46,9 +45,6 @@ TEST_CASE("Test that pixel grid functions work", "[pixelgrid]") {
     pixel_grid.normalise();
     printImage("pixels normed", pixel_grid);
     REQUIRE(pixel_grid == vals_norm2);
-
-
-
 }
 
 TEST_CASE("Test loading an image from file", "[loading]") {

@@ -64,5 +64,6 @@ void printImage(std::string name, PixelGrid<MonoPixel> image);
 
 bool operator==(const RGBPixel &lhs, const RGBPixel &rhs);
 bool operator==(const MonoPixel &lhs, const MonoPixel &rhs);
+bool operator==(const RGBPixel &lhs, const std::string &rhs);
 
 #endif
