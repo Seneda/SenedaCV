@@ -22,15 +22,7 @@ void RGBPixel::operator= (float intensity) {
     g *= ratio;
     b *= ratio;
 }
-RGBPixel operator "" _rgb(const char *rgbi, size_t len) {
-    RGBPixel pixel;
-    std::istringstream iss(rgbi);
-    iss >> pixel.r;
-    iss >> pixel.g;
-    iss >> pixel.b;
-    iss >> pixel.i;
-    return pixel;
-};
+
 RGBPixel::operator float () {
     return i;
 };
