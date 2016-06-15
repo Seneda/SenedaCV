@@ -84,3 +84,13 @@ TEST_CASE("Test block smoothing a delta works", "[convolution]") {
     REQUIRE(output[1][1].i == result[1][1].i);
 }
 
+TEST_CASE("test gaussian", "[kernels]") {
+    float val0, val1, val2, val3;
+    val0 = gauss(0, 0, 1);
+    REQUIRE(val0 == 1/(2*PI));
+    val1 = gauss(100, 100, 1);
+    REQUIRE(val1 == 0);
+    val2 = gauss(0, -1, 1);
+    val3 = gauss(0.70710678, -0.70710678, 1);
+    REQUIRE(val3 == val2);
+}

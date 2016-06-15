@@ -1,3 +1,4 @@
+#include <cmath>
 #include "img.hpp"
 
 RGBPixel::RGBPixel() {
@@ -16,11 +17,18 @@ void RGBPixel::calculate_intensity(){
         i = (r+g+b)/3;
     }
 void RGBPixel::operator= (float intensity) {
-    float ratio = intensity / i;
-    i = intensity;
-    r *= ratio;
-    g *= ratio;
-    b *= ratio;
+    if (i) {
+        float ratio = intensity / i;
+        i = intensity;
+        r *= ratio;
+        g *= ratio;
+        b *= ratio;
+    } else {
+        i = intensity;
+        r = intensity;
+        g = intensity;
+        b = intensity;
+    }
 }
 
 RGBPixel::operator float () {
@@ -111,7 +119,7 @@ void PixelGrid<T>::normalise() {
         sum_0 = 1;
     }
     FOR_PIXELS
-        (*this)[r][c].i /= sum_0;
+            (*this)[r][c].i /= sum_0;
     END_FOR_PIXELS
 }
 
@@ -127,9 +135,10 @@ float PixelGrid<T>::sum() {
 template<class T>
 void PixelGrid<T>::autorange() {
     float offset = min();
+    std::cout << offset << std::endl;
     if (offset < 0) {
         FOR_PIXELS
-            (*this)[r][c] += -1*offset;
+            (*this)[r][c].i += -1*offset;
         END_FOR_PIXELS
     }
 }
@@ -189,7 +198,48 @@ PixelGrid<MonoPixel> ConvertToMonopixel(PixelGrid<RGBPixel> old) {
     return pixel_grid;
 }
 
+template<class T>
+PixelGrid<T> PixelGrid<T>::resize(int out_rows, int out_columns){
+    PixelGrid<T> output = PixelGrid<T>(out_rows, out_columns);
+
+    for (int r=0; r < out_rows; r++){
+        for (int c=0; c < out_columns; c++){
+            // Convert r,c into old style coordinates
+            float r_real = (float)r / out_rows * rows;
+            float c_real = (float)c / out_columns * columns;
+            int r_0 = floor(r_real);
+            int r_1 = ceil(r_real);
+            int c_0 = floor(c_real);
+            int c_1 = ceil(c_real);
+            float r_d = r_real - r_0;
+            float c_d = c_real - c_0;
+            /*   tl--t------tr
+             *   |   |      |
+             *   |---p------|
+             *   |   |      |
+             *   |   |      |
+             *   |   |      |
+             *   bl--b------br  */
+            float tl, tr, bl, br;
+            tl = (*this)[r_0][c_0].i;
+            tr = (*this)[r_0][c_1].i;
+            bl = (*this)[r_1][c_0].i;
+            br = (*this)[r_1][c_1].i;
+            float t, b, p;
+            t = tr + (tr - tl)*c_d;
+            b = br + (br - bl)*c_d;
+            p = b + (b - t)*r_d;
+            output[r][c] = p;
+            // r / rows * this->rows() same for cols
+            // find the 4 vals adjacent and the distances from each
+            // Do a weighted sum (possibly split into x and y separately)
+            // Set output[r][c] = val;
+        }
+    }
+    return output;
+}
+
+
+
 template class PixelGrid<MonoPixel>;
 template class PixelGrid<RGBPixel>;
-
-

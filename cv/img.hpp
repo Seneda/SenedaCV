@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <stdlib.h>
+#include <functional>
 
 struct RGBPixel{
 	float r;
@@ -65,7 +66,26 @@ class PixelGrid {
     float min();
     float min_abs();
 	float sum();
-
+//    template<typename F>
+//    void ForEachPixel(F function) {
+//        for (int r=0; r < rows; r++) {
+//            for (int c=0; c < columns; c++) {
+//                function(r, c);
+//            }
+//        }
+//    }
+//    void print_pixels() {
+//        ForEachPixel(
+//        [](int r, int c)
+//         {
+//            if (r==c) {
+//                std::cout << r << " == " << c << std::endl;
+//            } else {
+//                std::cout << r << " != " << c << std::endl;
+//            }
+//        });
+//    }
+    PixelGrid<T> resize(int out_rows, int out_columns);
 };
 
 void printImage(std::string name, PixelGrid<MonoPixel> image);

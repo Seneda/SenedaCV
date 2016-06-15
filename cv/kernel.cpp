@@ -18,3 +18,24 @@ PixelGrid<MonoPixel> readKernel(std::string filename){
 	}
 	return kernel;
 }
+
+float gauss(float x, float y, float sig) {
+	float r = (1 / (2*PI*sig*sig)) * exp(-(pow(x,2)+pow(y,2))/(2*sig*sig));
+	std::cout << "gauss " << "x" << x << "y" << y << " " << r << std::endl;
+	return r;
+}
+
+PixelGrid<MonoPixel> gaussian(int size, float sig) {
+	PixelGrid<MonoPixel> kernel = PixelGrid<MonoPixel>(size, size);
+	FOR_PIXELS_IN_GRID(kernel)
+		float x, y;
+		x = c - size/2.0 + 0.5;
+		y = r - size/2.0 + 0.5;
+		kernel[r][c] = gauss(x, y, sig);
+	END_FOR_PIXELS
+	kernel.normalise();
+	printImage("gaussian", kernel);
+	return kernel;
+}
+
+

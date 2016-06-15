@@ -85,9 +85,9 @@ void PPMImage::saveImage(const char* name){
 	}
 	for (int i = 0; i < rows; i++){
 		for (int j = 0; j < columns; j++){
-			file << (int)(*this)[i][j].r << ' ';
-			file << (int)(*this)[i][j].g << ' ';
-			file << (int)(*this)[i][j].b << "   ";
+			file << (int)(*this)[i][j].i << ' ';
+			file << (int)(*this)[i][j].i << ' ';
+			file << (int)(*this)[i][j].i << "   ";
 		} 
 		
 		file << std::endl;
@@ -103,14 +103,36 @@ float PPMImage::min(){
 	}
 	return min;
 }
+////
+////float PPMImage::max(){
+////	float max = std::numeric_limits<int>::min();
+////	for (int i=0; i < columns*rows; i++){
+////		if ((*this)[0][i].i > max) {
+////			max = (*this)[0][i].i;
+////		}
+////	}
+////	return max;
+////}
+//
+//float PPMImage::max(){
+//	float max = std::numeric_limits<int>::min();
+//	ForEachPixel([&max, this](int r, int c)
+//		{
+//			if ((*this)[r][c].i > max) {
+//				max = (*this)[r][c].i;
+//			}
+//		}
+//	);
+//	return max;
+
 
 float PPMImage::max(){
 	float max = std::numeric_limits<int>::min();
-	for (int i=0; i < columns*rows; i++){
-			if ((*this)[0][i].i > max) {
-				max = (*this)[0][i].i;
-			}	
-	}
+	FOR_PIXELS
+			if ((*this)[r][c].i > max) {
+				max = (*this)[r][c].i;
+			}
+	END_FOR_PIXELS
 	return max;
 }
 

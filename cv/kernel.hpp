@@ -1,10 +1,17 @@
 #ifndef KERNEL_HPP
 #define KERNEL_HPP
 #include "img.hpp"
-#include <string>				
+#include <string>
+#include <cmath>
 					
+#define PI 3.14159265358979323846f
 
 PixelGrid<MonoPixel> readKernel(std::string filename);
+
+PixelGrid<MonoPixel> gaussian(int size, float sig);
+
+float gauss(float x, float y, float sig);
+
 /*
 PixelGrid edge_x() {
 	PixelGrid kernel(1,3);
