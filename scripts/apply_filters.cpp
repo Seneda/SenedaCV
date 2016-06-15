@@ -47,8 +47,8 @@ int main() {
 		}
 	}
 	cout << "****************" << endl;
-	image = image.resize(image.rows, image.columns);
-	image = image.convolve(gaussian(5,1));
+//	image = image.resize(image.rows, image.columns);
+//	image = image.convolve(gaussian(5,1));
 	cout << " GO \n" << endl;
 	PPMImage x_grad = image.convolve(readKernel("kernels/edge_x"));
 	PPMImage y_grad = image.convolve(readKernel("kernels/edge_y"));
@@ -61,19 +61,26 @@ int main() {
 	cout << y_grad.min() << endl;
 	x_grad.saveImage("X-grad.ppm");
 	y_grad.saveImage("Y-grad.ppm");
+
 	cout << "DONE" << std::endl;
+	cout << "X min " << x_grad.min() << "X max " << x_grad.max() << std::endl;
+	cout << "Y min " << y_grad.min() << "Y max " << y_grad.max() << std::endl;
 
 	PPMImage agg = PPMImage(image.magic, image.meta, x_grad.rows, x_grad.columns);
+	PPMImage ang = PPMImage(image.magic, image.meta, agg.rows, agg.columns);
 	FOR_PIXELS_IN_GRID(agg)
-    		if (abs(x_grad[r][c].i) > abs(y_grad[r][c].i)) {
-				agg[r][c] = x_grad[r][c];
-			} else {
-				agg[r][c] = y_grad[r][c];
-			}
-			agg[r][c].i *= sqrt(abs(agg[r][c].i));
-			agg[r][c].i /= 100;
+//    		if (abs(x_grad[r][c].i) > abs(y_grad[r][c].i)) {
+//				} else {
+//				agg[r][c] = y_grad[r][c];
+//			}
+//			agg[r][c].i *= sqrt(abs(agg[r][c].i));
+//			agg[r][c].i /= 100;
+			agg[r][c] = sqrt(x_grad[r][c] * x_grad[r][c] +
+							 y_grad[r][c] * y_grad[r][c]);
+			ang[r][c] = atan2(y_grad[r][c], x_grad[r][c]) * 180 / PI;
 	END_FOR_PIXELS
 	agg.autorange();
 	agg.saveImage("agg.ppm");
+	ang.saveImage("ang.ppm");
 
 }

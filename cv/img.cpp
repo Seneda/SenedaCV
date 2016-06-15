@@ -198,6 +198,11 @@ PixelGrid<MonoPixel> ConvertToMonopixel(PixelGrid<RGBPixel> old) {
     return pixel_grid;
 }
 
+bool operator==(const AnglePixel &lhs, const float rhs) {
+    return (lhs.i == rhs);
+}
+
+
 template<class T>
 PixelGrid<T> PixelGrid<T>::resize(int out_rows, int out_columns){
     PixelGrid<T> output = PixelGrid<T>(out_rows, out_columns);
@@ -241,5 +246,28 @@ PixelGrid<T> PixelGrid<T>::resize(int out_rows, int out_columns){
 
 
 
+
+
+AnglePixel::AnglePixel() {
+    i = 0;
+}
+AnglePixel::AnglePixel(float angle) {
+    i = angle;
+}
+
+void AnglePixel::operator=(float intensity) {
+    i = intensity;
+}
+
+void AnglePixel::operator+=(float intensity) {
+    i += intensity;
+}
+
+AnglePixel::operator float() {
+    return i;
+}
+
+
 template class PixelGrid<MonoPixel>;
 template class PixelGrid<RGBPixel>;
+template class PixelGrid<AnglePixel>;

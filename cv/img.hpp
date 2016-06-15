@@ -33,6 +33,17 @@ struct MonoPixel{
     explicit operator float ();
 };
 
+struct AnglePixel{
+	float i;
+
+	AnglePixel();
+	AnglePixel(float angle);
+
+	void operator= (float intensity);
+	void operator+= (float intensity);
+	explicit operator float ();
+};
+
 #define ITER_ROWS for (int r=0; r < rows; r++)
 #define ITER_COLS for (int c=0; c < columns; c++)
 #define FOR_PIXELS for (int r=0; r < rows; r++) { for (int c=0; c < columns; c++) {
@@ -97,5 +108,5 @@ PixelGrid<MonoPixel> ConvertToMonopixel(PixelGrid<RGBPixel> old);
 bool operator==(const RGBPixel &lhs, const RGBPixel &rhs);
 bool operator==(const MonoPixel &lhs, const MonoPixel &rhs);
 bool operator==(const RGBPixel &lhs, const std::string &rhs);
-
+bool operator==(const AnglePixel &lhs, const float rhs);
 #endif
