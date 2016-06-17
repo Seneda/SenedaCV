@@ -138,7 +138,7 @@ void PixelGrid<T>::autorange() {
     std::cout << offset << std::endl;
     if (offset < 0) {
         FOR_PIXELS
-            (*this)[r][c].i += -1*offset;
+            (*this)[r][c] += -1*offset;
         END_FOR_PIXELS
     }
 }

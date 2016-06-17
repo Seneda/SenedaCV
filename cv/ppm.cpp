@@ -85,9 +85,9 @@ void PPMImage::saveImage(const char* name){
 	}
 	for (int i = 0; i < rows; i++){
 		for (int j = 0; j < columns; j++){
-			file << (int)(*this)[i][j].i << ' ';
-			file << (int)(*this)[i][j].i << ' ';
-			file << (int)(*this)[i][j].i << "   ";
+			file << (int)(*this)[i][j].r << ' ';
+			file << (int)(*this)[i][j].g << ' ';
+			file << (int)(*this)[i][j].b << "   ";
 		} 
 		
 		file << std::endl;
@@ -97,9 +97,15 @@ void PPMImage::saveImage(const char* name){
 float PPMImage::min(){
 	float min = std::numeric_limits<int>::max();
 	for (int i=0; i < columns*rows; i++){
-			if ((*this)[0][i].i < min) {
-				min = (*this)[0][i].i;
-			}	
+		if ((*this)[0][i].r < min) {
+			min = (*this)[0][i].r;
+		}
+		if ((*this)[0][i].g < min) {
+			min = (*this)[0][i].g;
+		}
+		if ((*this)[0][i].b < min) {
+			min = (*this)[0][i].b;
+		}
 	}
 	return min;
 }
@@ -129,8 +135,14 @@ float PPMImage::min(){
 float PPMImage::max(){
 	float max = std::numeric_limits<int>::min();
 	FOR_PIXELS
-			if ((*this)[r][c].i > max) {
-				max = (*this)[r][c].i;
+			if ((*this)[r][c].r > max) {
+				max = (*this)[r][c].r;
+			}
+			if ((*this)[r][c].g > max) {
+				max = (*this)[r][c].g;
+			}
+			if ((*this)[r][c].b > max) {
+				max = (*this)[r][c].b;
 			}
 	END_FOR_PIXELS
 	return max;
@@ -249,15 +261,32 @@ PPMImage PPMImage::resize(int out_rows, int out_columns){
 			 *   |   |      |
 			 *   bl--b------br  */
 			float tl, tr, bl, br;
-			tl = (*this)[r_0][c_0].i;
-			tr = (*this)[r_0][c_1].i;
-			bl = (*this)[r_1][c_0].i;
-			br = (*this)[r_1][c_1].i;
-			float t, b, p;
+
+			float t, b, R, G, B;
+
+			tl = (*this)[r_0][c_0].r;
+			tr = (*this)[r_0][c_1].r;
+			bl = (*this)[r_1][c_0].r;
+			br = (*this)[r_1][c_1].r;
 			t = tr + (tr - tl)*c_d;
 			b = br + (br - bl)*c_d;
-			p = b + (b - t)*r_d;
-			output[r][c] = p;
+			R = b + (b - t)*r_d;
+			tl = (*this)[r_0][c_0].g;
+			tr = (*this)[r_0][c_1].g;
+			bl = (*this)[r_1][c_0].g;
+			br = (*this)[r_1][c_1].g;
+			t = tr + (tr - tl)*c_d;
+			b = br + (br - bl)*c_d;
+			G = b + (b - t)*r_d;
+			tl = (*this)[r_0][c_0].b;
+			tr = (*this)[r_0][c_1].b;
+			bl = (*this)[r_1][c_0].b;
+			br = (*this)[r_1][c_1].b;
+			t = tr + (tr - tl)*c_d;
+			b = br + (br - bl)*c_d;
+			B = b + (b - t)*r_d;
+
+			output[r][c] = RGBPixel(R,G,B);
 			// r / rows * this->rows() same for cols
 			// find the 4 vals adjacent and the distances from each
 			// Do a weighted sum (possibly split into x and y separately)

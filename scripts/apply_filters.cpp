@@ -9,8 +9,8 @@ using namespace std;
 
 
 int main() {
-	string magic, meta;
-	// open file
+    string magic, meta;
+    // open file
 	std::ifstream file;
 	file.open((char*)"instructions.txt", std::ifstream::in);
 
@@ -68,19 +68,26 @@ int main() {
 
 	PPMImage agg = PPMImage(image.magic, image.meta, x_grad.rows, x_grad.columns);
 	PPMImage ang = PPMImage(image.magic, image.meta, agg.rows, agg.columns);
+	PPMImage color = image.resize(agg.rows, agg.columns);
+
 	FOR_PIXELS_IN_GRID(agg)
-//    		if (abs(x_grad[r][c].i) > abs(y_grad[r][c].i)) {
-//				} else {
-//				agg[r][c] = y_grad[r][c];
-//			}
-//			agg[r][c].i *= sqrt(abs(agg[r][c].i));
-//			agg[r][c].i /= 100;
 			agg[r][c] = sqrt(x_grad[r][c] * x_grad[r][c] +
 							 y_grad[r][c] * y_grad[r][c]);
-			ang[r][c] = atan2(y_grad[r][c], x_grad[r][c]) * 180 / PI;
+			ang[r][c] = atan2(y_grad[r][c], x_grad[r][c]) * 180 / PI + 180;
+
+			color[r][c].r *= agg[r][c].i/color[r][c].i;
+			color[r][c].g *= agg[r][c].i/color[r][c].i;
+			color[r][c].b *= agg[r][c].i/color[r][c].i;
 	END_FOR_PIXELS
 	agg.autorange();
 	agg.saveImage("agg.ppm");
+	ang = ang.resize(ang.rows/3, ang.columns/3);
 	ang.saveImage("ang.ppm");
+//	color.autorange();
+	float min = color.min();
+	FOR_PIXELS_IN_GRID(color)
+			   color[r][c] += -1*min;
+	END_FOR_PIXELS
+	color.saveImage("color.ppm");
 
 }
