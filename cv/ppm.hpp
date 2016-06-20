@@ -15,9 +15,9 @@ class PPMImage: public PixelGrid<RGBPixel> {
 		this->meta = meta;
 		this->magic = magic;
 	}
-	PPMImage convolve(PixelGrid<MonoPixel> kernel);
+	PPMImage convolve(const PixelGrid<MonoPixel> kernel)const;
 	PPMImage apply_kernels(std::vector<PixelGrid<MonoPixel>> kernels);
-	PPMImage resize(int rows, int columns);
+	PPMImage resize(int rows, int columns)const;
 	void saveImage(const char* name);
 	void normalise();
 	void magnitudise();

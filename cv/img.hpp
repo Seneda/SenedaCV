@@ -60,13 +60,37 @@ class PixelGrid {
 	}
 	bool  operator== (float*);
 	int rows, columns;
+
 	PixelGrid(int r, int c){
 		rows = r;
 		columns = c;
 		pixels = new T[r*c];
 	}
+	virtual ~PixelGrid(){
+		delete[] pixels;
+	}
+	PixelGrid<T>(const PixelGrid<T> &rhs) {
+		rows = rhs.rows;
+		columns = rhs.columns;
+		pixels = new T[rows*columns];
+		FOR_PIXELS_IN_GRID(rhs)
+				pixels[r*columns+c] = rhs[r][c];
+		END_FOR_PIXELS
+	}
+	void operator=(const PixelGrid<T> &rhs) {
+		rows = rhs.rows;
+		columns = rhs.columns;
+        delete[] pixels;
+        pixels = new T[rows*columns];
+		FOR_PIXELS_IN_GRID(rhs)
+				(*this)[r][c] = rhs[r][c];
+		END_FOR_PIXELS
+	}
 	//  image[row][col]
 	T* operator[](int i){
+		return &pixels[i*columns];
+	}
+	const T* operator[](int i)const{
 		return &pixels[i*columns];
 	}
 	PixelGrid<T> convolve(PixelGrid<MonoPixel> kernel);
@@ -97,6 +121,7 @@ class PixelGrid {
 //        });
 //    }
     PixelGrid<T> resize(int out_rows, int out_columns);
+
 };
 
 void printImage(std::string name, PixelGrid<MonoPixel> image);

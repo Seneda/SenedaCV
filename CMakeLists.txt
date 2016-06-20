@@ -25,6 +25,8 @@ find_package( Threads )
 
 add_executable(SenedaCV ${SOURCE_FILES} ${Apply_Filters})
 add_executable(Edge ${SOURCE_FILES} ${Edge})
+add_custom_target(EdgeValg valgrind ${SOURCE_FILES} ${Edge})
+
 add_executable(SenedaCVTests ${SOURCE_FILES} ${TEST_FILES})
 
 target_link_libraries( Edge ${CMAKE_THREAD_LIBS_INIT} )
